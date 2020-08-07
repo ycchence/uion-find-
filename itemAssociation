@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Uionfind {
+    vector<int> father;
+    vector<int> size;
+    Uionfind(int n) {
+        for (int i = 0; i < n; i++) {
+            father[i] = i;
+            size[i] =1;
+        }
+    }
+    void uion(int a, int b) {
+        int root_a = find(a);
+        int root_b = find(b);
+        if (root_a != root_b) {
+            father[root_b] = root_a;
+            size[root_a] += size[root_b];
+        }
+    }
+    int find(int a) {
+        if (father[a] == a) {
+            return a;
+        }
+        return father[a] = find(father[a]);
+    }
+    int findmax(int a) {
+        int max = 0;
+        int index = 0;
+        for (int i = 0; i < size.size(); i++) {
+            if (size[i] > max) {
+                max = size[i];
+                index = i;
+            }
+        }
+        return index;
+    } 
+    
+};
+
+int main()
+{
+    vector<vector<string>> items {{"itemA", "itemB"}, {"itemB", "itemC"},
+                {"itemD", "itemE"}, {"itemE", "itemF"}, {"itemG", "itemD"}};
+    int index = 0;
+    unordered_map<string, int> hash;
+    for (int i = 0; i < items.size(); i++) {
+        if (hash.find(items[i][0])) != hash.end()) hash[items[i][0]] = index++;
+        if (hash.find(items[i][1])) != hash.end()) hash[items[i][1]] = index++;
+    }
+    UnionFind un(hash.size());
+
+    for (int i = 0; i < n; i++) {
+        un.union(hash.get(items[i][0]), hash.get(items[i][1]));
+    }
+
+    int maxIndex = un.findMaxSize();
+    for (pair<String, Integer> entry : hash) {
+        string key = entry.first;
+        int ind = entrhttps://github.com/ycchence/uion-find-y.second;
+        if (un.find(ind) == maxIndex) {
+            std::cout << key << std::endl;
+        }
+    }
+
+    return 0;
+}

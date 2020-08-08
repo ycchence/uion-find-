@@ -1,0 +1,58 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+int computeScore(vector<string>& score) {
+    if (score.size() == 0) {
+        return 0;
+    }
+    stack<int> mystack;
+    int sum = 0;
+    for (int i = 0; i < score.size(); i++) {
+        string s = score[i];
+        int val = 0;
+        if (!mystack.empty() && s == "Z") {
+            val = mystack.top();
+            mystack.pop();
+            sum -= val;
+        } else if (!mystack.empty() && s == "X") {
+            val = mystack.top() * 2;
+            sum += val;
+            mystack.push(val);
+        } else if (s == "+") {
+            int size = mystack.size();
+            if (size >= 2) {
+                int tmp = mystack.top();
+                mystack.pop();
+                val += (mystack.top() + tmp);
+                mystack.push(tmp);
+            } else if (size == 1) {//?????
+                val = mystack.top();
+            }
+            sum += val;
+            mystack.push(val);
+        } else {
+            val = atoi(s.c_str());
+            sum += val;
+            mystack.push(val);
+        }
+    }
+    return sum;
+}
+
+int main()
+{
+    vector<string> score = {"5", "-2", "4", "Z", "X", "9", "+", "+"};
+    cout << computeScore(score) << std::endl;
+    return 0;
+}

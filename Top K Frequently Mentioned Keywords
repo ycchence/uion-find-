@@ -1,0 +1,63 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <unordered_set>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+typedef pair<int,string> pis;
+
+struct mycompare {
+    bool operator() (const pis& a, const pis& b) {
+        if(a.first==b.first) {
+           return a.second < b.second;
+        }
+        return a.first > b.first;
+    }
+};
+
+vector<string> topKFrequent(vector<string>& reviews, vector<string>&keywords, int k) {
+    unordered_set<string> keyword(keywords.begin(), keywords.end());
+    unordered_map<string,int> count;
+    priority_queue<pis,vector<pis>,mycompare> pq;
+    vector<string> result;
+    
+    for(string review : reviews) {
+        string s = "";
+        int i = 0;
+        unordered_set<string> words;
+        while (i < review.length()) {
+            if (review[i] != ' ') {
+                s += tolower(review[i++]);
+            }
+            i++;
+            words.insert(s);
+        }
+        for(auto it : words) {
+            count[it]++;
+        }
+    }
+    
+    for(auto it : count) {
+        pq.push(make_pair(it.second, it.first));
+        if(pq.size() > k) {
+            pq.pop();
+        }
+    }
+    while(!pq.empty()) {
+        result.push_back(pq.top().second);
+        pq.pop();
+    }
+    
+    reverse(result.begin(),result.end());
+    return result;
+}
+
+int main()
+{
+    
+    return 0;
+}

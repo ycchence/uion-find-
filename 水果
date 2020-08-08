@@ -1,0 +1,39 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int check(vector<vector<string>>& codelist, vector<string>& shopping) {
+    vector<string> alllist;
+    for (vector<string>& codes : codelist) {
+        for (string code : codes) {
+            alllist.push_back(code);
+        }
+    }
+    int j = 0;
+    for (int i = 0; i <= shopping.size() - alllist.size(); i++) {
+        while (j < alllist.size() && (alllist[j] == shopping[i + j] || alllist[j] == "anythings")) {
+            j++;
+        }
+        if (j == alllist.size())
+            return 1;
+        j = 0;
+    }
+    return 0;
+}
+
+int main()
+{
+    vector<vector<string>> codelist {{"apple", "apple"}, {"orange", "banana", "orange"}};
+    vector<string> shopping{"orange", "apple", "apple", "orange", "banana", "orange"};
+    std::cout << check(codelist, shopping) << std::endl;
+    return 0;
+}

@@ -1,0 +1,45 @@
+
+using namespace std;
+string subStringCheck(string &s, char start,int i, int k){
+    unordered_set<char> chars;
+    string ret="";
+    ret+=start;
+    int j;
+    chars.insert(start);
+    for(j=i;j<i+k-1;j++){
+        if(chars.find(s[j]) != chars.end())
+            return "";
+        else{
+            chars.insert(s[j]);
+            ret+=s[j];
+        }
+    }
+    return ret;
+}
+vector<string> subStringwithKdischars(string &s, int k){
+    vector<string> res;
+    int n = s.size();
+    if(n<k)
+        return res;
+    
+    unordered_set<string> set;
+    string check;
+    char start;
+    for(int i=0;i<=n-k;i++){
+        start = s[i];
+        check = subStringCheck(s,start,i+1,k);
+        if(!check.empty() && set.find(check) == set.end()){
+            set.insert(check);
+            res.push_back(check);
+        }
+    }
+    return res;
+}
+int main()
+{
+    string s="awaglknagawunagwkwagl";
+    int k=4;
+    vector<string> res = subStringwithKdischars(s,k);
+    for(int i=0;i<res.size();i++)
+        cout<<res[i]<<" ";
+}
